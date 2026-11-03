@@ -1,6 +1,6 @@
-import * as THREE from 'three'
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
+import Islands from './Islands.js'
 
 export default class World {
   constructor() {
@@ -8,8 +8,8 @@ export default class World {
     this.scene = this.experience.scene
     this.resources = this.experience.resources
 
-    this.cube = null
     this.environment = null
+    this.islands = null
 
     this._onReady = () => this._build()
 
@@ -21,29 +21,25 @@ export default class World {
   }
 
   _build() {
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshNormalMaterial())
-    this.scene.add(this.cube)
-
     this.environment = new Environment()
+    this.islands = new Islands()
   }
 
   update() {
-    // Placeholder for future world updates (animations, character, islands).
+    // Placeholder for future world updates (animations, character).
   }
 
   destroy() {
     this.resources.off('ready', this._onReady)
 
+    if (this.islands) {
+      this.islands.destroy()
+      this.islands = null
+    }
+
     if (this.environment) {
       this.environment.destroy()
       this.environment = null
-    }
-
-    if (this.cube) {
-      this.cube.geometry.dispose()
-      this.cube.material.dispose()
-      this.scene.remove(this.cube)
-      this.cube = null
     }
   }
 }

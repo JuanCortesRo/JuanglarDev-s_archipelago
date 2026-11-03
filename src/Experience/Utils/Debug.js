@@ -34,7 +34,7 @@ export default class Debug extends EventEmitter {
       this.stats.showPanel(0)
       document.body.appendChild(this.stats.dom)
 
-      for (const task of this._pending) task()
+      for (const task of this._pending) task(this.ui)
       this._pending = []
 
       this.trigger('ready')
@@ -45,10 +45,15 @@ export default class Debug extends EventEmitter {
 
   _whenReady(task) {
     if (this.ui) {
-      task()
+      task(this.ui)
     } else {
       this._pending.push(task)
     }
+  }
+
+  whenReady(task) {
+    if (!this.active) return
+    this._whenReady(task)
   }
 
   addHelper(name, object3D) {
