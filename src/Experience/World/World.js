@@ -13,7 +13,11 @@ export default class World {
 
     this._onReady = () => this._build()
 
-    this.resources.on('ready', this._onReady)
+    if (this.resources.isReady) {
+      this._build()
+    } else {
+      this.resources.on('ready', this._onReady)
+    }
   }
 
   _build() {

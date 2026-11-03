@@ -14,6 +14,7 @@ export default class Resources extends EventEmitter {
     this.items = {}
     this.toLoad = this.sources.length
     this.loaded = 0
+    this.isReady = false
 
     this.loadingManager = new THREE.LoadingManager()
 
@@ -30,7 +31,7 @@ export default class Resources extends EventEmitter {
 
   startLoading() {
     if (this.sources.length === 0) {
-      this.trigger('ready')
+      queueMicrotask(() => this._ready())
       return
     }
 
@@ -68,8 +69,13 @@ export default class Resources extends EventEmitter {
     })
 
     if (this.loaded === this.toLoad) {
-      this.trigger('ready')
+      this._ready()
     }
+  }
+
+  _ready() {
+    this.isReady = true
+    this.trigger('ready')
   }
 
   sourceError(source) {
