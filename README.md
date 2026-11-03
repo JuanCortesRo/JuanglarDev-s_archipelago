@@ -51,7 +51,7 @@ El informe agrupa los archivos de `dist/` por tipo (js, css, modelos, texturas, 
 
 ## Despliegue
 
-- **URL pública**: `<pendiente>`
+- **URL pública**: https://juanglar-dev.vercel.app/
 - El despliegue se hace en **Vercel** como sitio estático de Vite.
 - Cada _push_ a `main` genera automáticamente un despliegue de producción (`npm run build` → `dist/`).
 - Cada pull request genera un **despliegue de vista previa** (preview deployment) con su propia URL para revisar los cambios antes de fusionar.
